@@ -4,7 +4,7 @@ import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import ListaClientes from '../pages/ListaClientes';
 import DetalleCliente from '../pages/DetalleCliente';
-//import RutaProtegida from '../components/RutaProtegida';
+import RutaProtegida from '../components/RutaProtegida';
 
 const routes = createBrowserRouter([
     {
@@ -13,9 +13,9 @@ const routes = createBrowserRouter([
         children: [
             { index: true, element: <Navigate to="/login" /> },
             { path: 'login', element: <Login /> },
-            { path: 'dashboard', element: <Dashboard /> },
-            { path: 'clientes', element: <ListaClientes /> },
-            { path: 'clientes/:id', element: <DetalleCliente /> },
+            { path: 'dashboard', element: <RutaProtegida><Dashboard /></RutaProtegida> },
+            { path: 'clientes', element: <RutaProtegida><ListaClientes /></RutaProtegida> },
+            { path: 'clientes/:id', element: <RutaProtegida><DetalleCliente /></RutaProtegida> },
         ]
     }
 ]);
