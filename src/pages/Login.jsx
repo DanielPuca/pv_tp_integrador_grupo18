@@ -1,2 +1,131 @@
-const Login = () => <h2>Login</h2>;
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
+import { useAdmin } from '../hook/useAdmin';
+import adminService from '../services/adminServices';
+
+const Login = () => {
+
+    const navigate = useNavigate();
+    const { guardarSesion } = useAdmin();
+
+    const [form, setForm] = useState({ usuario: '', contrasena: '', sector: '' });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [verContrasena, setVerContrasena] = useState(false);
+    const [erroresCampo, setErroresCampo] = useState({});
+
+    const validarForm = () => {
+        const errores = {};
+        
+        if (form.usuario.trim().length < 3) {
+            errores.usuario = 'El usuario debe tener al menos 3 caracteres';
+        }
+        if (form.contrasena.length < 7) {
+            errores.contrasena = 'La contraseña debe tener al menos 7 caracteres';
+        } else if (!/[A-Z]/.test(form.contrasena)) {
+            errores.contrasena = 'La contraseña debe tener al menos una mayúscula';
+        } else if (!/[0-9]/.test(form.contrasena)) {
+            errores.contrasena = 'La contraseña debe tener al menos un número';
+        }
+        
+        return errores;
+    };
+
+    const manejarCambio = (e) => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+        setError('');
+        if (erroresCampo[name]) {
+            setErroresCampo(prev => ({ ...prev, [name]: null }));
+        }
+    };
+
+    const manejarIngreso = async (e) => {
+        e.preventDefault();
+        setError('');
+
+       const errores = validarForm();
+        if (Object.keys(errores).length > 0) {
+            setErroresCampo(errores);
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const encontrado = await adminService.validarAdmin(form.usuario, form.contrasena);
+            
+            if (encontrado.rol !== form.sector) {
+                setError(`Usted no tiene el rol de ${form.sector}`);
+                return;
+            }
+            guardarSesion({ ...encontrado, rol: form.sector });
+            navigate('/dashboard');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const formularioIncompleto = !form.usuario.trim() || !form.contrasena.trim() || !form.sector;
+
+    return (
+        <div className="bg-dark min-vh-100 d-flex align-items-center">
+            <Container>
+                <Row className="justify-content-center">
+                    <Col md={5}>
+                        <Card className="p-4 shadow">
+                            <Card.Body>
+                                <h3 className="text-center mb-4">LOGIN</h3>
+                                <Form onSubmit={manejarIngreso} noValidate>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Usuario</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="usuario"
+                                            placeholder="Ingresá tu usuario"
+                                            value={form.usuario}
+                                            onChange={manejarCambio}
+                                        />
+                                        {erroresCampo.usuario && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.usuario}</p>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Contraseña</Form.Label>
+                                        <div className="d-flex gap-2">
+                                            <Form.Control
+                                                type={verContrasena ? 'text' : 'password'}
+                                                name="contrasena"
+                                                placeholder="Ingresá tu contraseña"
+                                                value={form.contrasena}
+                                                onChange={manejarCambio}
+                                            />                
+                                            <Button variant="outline-secondary" onClick={() => setVerContrasena(!verContrasena)}>
+                                                {verContrasena ? '🙈' : '🙉'}
+                                            </Button>
+                                        </div>
+                                        {erroresCampo.contrasena && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.contrasena}</p>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Sector</Form.Label>
+                                        <Form.Select name="sector" value={form.sector} onChange={manejarCambio}>
+                                            <option value="">Seleccioná un sector</option>
+                                            <option value="Soporte">Soporte</option>
+                                            <option value="Gerencia">Gerencia</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                    {error && <p className="text-danger">{error}</p>}
+                                    <Button variant="dark" type="submit" className="w-100" disabled={loading || formularioIncompleto}>
+                                        {loading ? 'Verificando...' : 'Ingresar'}
+                                    </Button>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    );
+};
+
 export default Login;
