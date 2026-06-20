@@ -9,7 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { guardarSesion } = useAdmin();
 
-    const [form, setForm] = useState({ usuario: '', contrasena: '', sector: '' });
+    const [form, setForm] = useState({ usuario: '', contrasena: ''});
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [verContrasena, setVerContrasena] = useState(false);
@@ -54,13 +54,8 @@ const Login = () => {
         setLoading(true);
         try {
             const encontrado = await adminService.validarAdmin(form.usuario, form.contrasena);
-            
-            if (encontrado.rol !== form.sector) {
-                setError(`Usted no tiene el rol de ${form.sector}`);
-                return;
-            }
-            guardarSesion({ ...encontrado, rol: form.sector });
-            navigate('/dashboard');
+            guardarSesion(encontrado);
+            navigate('/clientes');
         } catch (err) {
             setError(err.message);
         } finally {
@@ -68,7 +63,7 @@ const Login = () => {
         }
     };
 
-    const formularioIncompleto = !form.usuario.trim() || !form.contrasena.trim() || !form.sector;
+    const formularioIncompleto = !form.usuario.trim() || !form.contrasena.trim();
 
     return (
         <div className="bg-dark min-vh-100 d-flex align-items-center">
@@ -106,15 +101,6 @@ const Login = () => {
                                         </div>
                                         {erroresCampo.contrasena && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.contrasena}</p>}
                                     </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Sector</Form.Label>
-                                        <Form.Select name="sector" value={form.sector} onChange={manejarCambio}>
-                                            <option value="">Seleccioná un sector</option>
-                                            <option value="Soporte">Soporte</option>
-                                            <option value="Gerencia">Gerencia</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    {error && <p className="text-danger">{error}</p>}
                                     <Button variant="dark" type="submit" className="w-100" disabled={loading || formularioIncompleto}>
                                         {loading ? 'Verificando...' : 'Ingresar'}
                                     </Button>

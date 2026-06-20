@@ -1,11 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Alert, Badge, Card, Container, Form, Spinner, Table } from 'react-bootstrap';
+import { Alert, Badge, Card, Container, Form, Spinner, Table, Button} from 'react-bootstrap';
 
 const ListaClientes = () => {
+
   const [clientes, setClientes] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarClientes = async () => {
@@ -97,6 +101,7 @@ const ListaClientes = () => {
               <th>Email</th>
               <th>Teléfono</th>
               <th>Ciudad</th>
+              <th>Ficha</th>
             </tr>
           </thead>
 
@@ -110,6 +115,13 @@ const ListaClientes = () => {
                 <td>{cliente.email}</td>
                 <td>{cliente.phone}</td>
                 <td>{cliente.address.city}</td>
+                <td>
+                  <Button variant="outline-primary" size="sm"
+                    onClick={() => navigate(`/clientes/${cliente.id}`)}
+                  >
+                    Ver Ficha 
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>

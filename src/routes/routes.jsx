@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from '../App';
-import Login from '../views/Login';
+import Login from '../components/Login';
 import Dashboard from '../views/Dashboard';
 import ListaClientes from '../views/ListaClientes';
 import DetalleCliente from '../views/DetalleCliente';
