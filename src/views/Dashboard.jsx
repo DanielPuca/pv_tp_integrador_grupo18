@@ -1,2 +1,5 @@
-const Dashboard = () => <h2>Dashboard</h2>;
+import FormCliente from "../components/FormCliente";
+
+
+
 export default Dashboard;
