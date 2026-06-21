@@ -4,7 +4,7 @@ import { useAdmin } from '../hook/useAdmin';
 const RutaProtegida = ({ children }) => {
     const { admin } = useAdmin();
 
-    if (!admin) return <Navigate to="/login" replace />;
+    if (!admin) return <Navigate to="/" replace />;
 
     return children;
 };
