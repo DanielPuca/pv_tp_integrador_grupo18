@@ -66,51 +66,42 @@ const Login = () => {
     const formularioIncompleto = !form.usuario.trim() || !form.contrasena.trim();
 
     return (
-        <div className="bg-dark min-vh-100 d-flex align-items-center">
-            <Container>
-                <Row className="justify-content-center">
-                    <Col md={5}>
-                        <Card className="p-4 shadow">
-                            <Card.Body>
-                                <h3 className="text-center mb-4">LOGIN</h3>
-                                <Form onSubmit={manejarIngreso} noValidate>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Usuario</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="usuario"
-                                            placeholder="Ingresá tu usuario"
-                                            value={form.usuario}
-                                            onChange={manejarCambio}
-                                        />
-                                        {erroresCampo.usuario && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.usuario}</p>}
-                                    </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Contraseña</Form.Label>
-                                        <div className="d-flex gap-2">
-                                            <Form.Control
-                                                type={verContrasena ? 'text' : 'password'}
-                                                name="contrasena"
-                                                placeholder="Ingresá tu contraseña"
-                                                value={form.contrasena}
-                                                onChange={manejarCambio}
-                                            />                
-                                            <Button variant="outline-secondary" onClick={() => setVerContrasena(!verContrasena)}>
-                                                {verContrasena ? '🙈' : '🙉'}
-                                            </Button>
-                                        </div>
-                                        {erroresCampo.contrasena && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.contrasena}</p>}
-                                    </Form.Group>
-                                    <Button variant="dark" type="submit" className="w-100" disabled={loading || formularioIncompleto}>
-                                        {loading ? 'Verificando...' : 'Ingresar'}
-                                    </Button>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <>
+            <h3 className="text-center mb-4">Iniciar Sesión</h3>
+            <Form onSubmit={manejarIngreso} noValidate>
+                <Form.Group className="mb-3">
+                    <Form.Label>Usuario</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="usuario"
+                        placeholder="Ingresá tu usuario"
+                        value={form.usuario}
+                        onChange={manejarCambio}
+                    />
+                    {erroresCampo.usuario && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.usuario}</p>}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Contraseña</Form.Label>
+                    <div className="d-flex gap-2">
+                        <Form.Control
+                            type={verContrasena ? 'text' : 'password'}
+                            name="contrasena"
+                            placeholder="Ingresá tu contraseña"
+                            value={form.contrasena}
+                            onChange={manejarCambio}
+                        />
+                        <Button variant="outline-secondary" onClick={() => setVerContrasena(!verContrasena)}>
+                            {verContrasena ? '🙈' : '🙉'}
+                        </Button>
+                    </div>
+                    {erroresCampo.contrasena && <p className="text-danger" style={{ fontSize: '0.85rem' }}>{erroresCampo.contrasena}</p>}
+                </Form.Group>
+                {error && <p className="text-danger">{error}</p>}
+                <Button variant="warning" type="submit" className="w-100" disabled={loading || formularioIncompleto}>
+                    {loading ? 'Verificando...' : 'Ingresar'}
+                </Button>
+            </Form>
+        </>
     );
 };
 
