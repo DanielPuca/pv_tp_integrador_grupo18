@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from '../App';
+import Login from '../components/Login';
 import Dashboard from '../views/Dashboard';
 import ListaClientes from '../views/ListaClientes';
 import DetalleCliente from '../views/DetalleCliente';
@@ -10,7 +11,8 @@ const routes = createBrowserRouter([
         path: '/',
         element: <App />,
         children: [
-            { index: true, element: <Dashboard /> },
+            { index: true, element: <Login /> },
+            { path: 'dashboard', element: <RutaProtegida><Dashboard /></RutaProtegida> },
             { path: 'clientes', element: <RutaProtegida><ListaClientes /></RutaProtegida> },
             { path: 'clientes/:id', element: <RutaProtegida><DetalleCliente /></RutaProtegida> },
         ]

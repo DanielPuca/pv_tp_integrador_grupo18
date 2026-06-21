@@ -1,5 +1,5 @@
 import { Col, Container, Row, Card } from 'react-bootstrap';
-import Login from '../components/Login';
+
 
 const Dashboard = () => {
     return (
@@ -20,13 +20,6 @@ const Dashboard = () => {
                            Cada administrador accede solo a las funciones habilitadas para su sector, garantizando la seguridad y 
                            privacidad de la información en todo momento.
                         </p>
-                    </Col>
-                    <Col md={5}>
-                        <Card className="p-4 shadow">
-                            <Card.Body>
-                                <Login />
-                            </Card.Body>
-                        </Card>
                     </Col>
                 </Row>
             </Container>
