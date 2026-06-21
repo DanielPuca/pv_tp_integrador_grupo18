@@ -1,20 +1,22 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
+import { useNavigate, Navigate } from 'react-router-dom';
+import {  Form, Button} from 'react-bootstrap';
 import { useAdmin } from '../hook/useAdmin';
 import adminService from '../services/adminServices';
 
 const Login = () => {
 
     const navigate = useNavigate();
-    const { guardarSesion } = useAdmin();
+    const {admin, guardarSesion } = useAdmin();
 
     const [form, setForm] = useState({ usuario: '', contrasena: ''});
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [verContrasena, setVerContrasena] = useState(false);
     const [erroresCampo, setErroresCampo] = useState({});
-
+    if (admin) {
+    return <Navigate to="/dashboard" replace />;
+    }
     const validarForm = () => {
         const errores = {};
         
