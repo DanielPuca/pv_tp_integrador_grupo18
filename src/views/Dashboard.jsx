@@ -11,8 +11,8 @@ const Dashboard = () => {
                     </Col>
                 </Row>
                 <Row className="align-items-center g-4">
-                    <Col md={7} className="text-white">
-                        <h4 className="text-warning mb-3">¿Qué puedes hacer aquí?</h4>
+                    <Col md={12} className="text-white">
+                        <h4 className="text-warning mb-3 text-center">¿Qué puedes hacer aquí?</h4>
                         <p className="text-light">
                            Desde aquí podés consultar, registrar y administrar clientes en tiempo real. 
                            Contamos con acceso seguro por usuario y contraseña, control de permisos según tu rol y conexión directa 
