@@ -1,18 +1,16 @@
 import { Modal, Button } from "react-bootstrap";
 
-const MensajeExito = ({show, onClose, idCliente}) => {
+const MensajeExito = ({show, onClose, titulo, mensaje}) => {
     
     return(
         
         <Modal show={show} onHide={onClose} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Cliente creado</Modal.Title>
+                <Modal.Title>{titulo}</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
-                Cliente creado correctamente.
-                <br />
-                ID asignado: {idCliente}
+                {mensaje}
             </Modal.Body>
 
             <Modal.Footer>

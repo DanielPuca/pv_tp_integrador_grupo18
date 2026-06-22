@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Container, Form, Spinner, Table, Button} from 'react-bootstrap';
+import FormCliente from '../components/FormCliente';
 
 const ListaClientes = () => {
 
@@ -127,7 +128,9 @@ const ListaClientes = () => {
           </tbody>
         </Table>
       )}
+      <FormCliente></FormCliente>
     </Container>
+    
   );
 };
 
