@@ -304,7 +304,8 @@ const FormCliente = () =>{
                     <MensajeExito 
                         show={mostrarExito}
                         onClose={() => setMostrarExito(false)}
-                        idCliente={idCliente}
+                        titulo='Cliente creado'
+                        mensaje={`ID: ${idCliente}`}
                     />
                 </Col>
             </Row>

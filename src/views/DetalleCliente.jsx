@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert, Card, Col, Container, Row, Spinner, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useAdmin } from '../hook/useAdmin';
+import clienteServices from '../services/clienteServices';
 
 const DetalleCliente = () => {
   const { id } = useParams();
@@ -10,6 +12,8 @@ const DetalleCliente = () => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const { admin } = useAdmin();
 
   useEffect(() => {
     const obtenerCliente = async () => {
@@ -71,6 +75,30 @@ const DetalleCliente = () => {
 
   const { name, email, phone, address, username, password } = cliente;
 
+  const manejarEliminar = async () => {
+
+    const confirmar = window.confirm(
+        '¿Desea eliminar este cliente?'
+    );
+
+    if (!confirmar) return;
+
+    try {
+
+        await clienteServices.eliminarCliente(id);
+
+        alert('Cliente eliminado correctamente');
+
+        navigate('/clientes');
+
+    } catch (err) {
+
+        setError(err.message);
+
+    }
+
+};
+
   return (
     
     <Container className="py-4">
@@ -123,7 +151,16 @@ const DetalleCliente = () => {
             <Col md={6}>
               <p><strong>Ciudad:</strong> {formatearTexto(address.city)}</p>
             </Col>
+            {admin.rol === 'Gerencia' &&(
+              <Col xs={12} className='text-center'>
+                <Button variant="danger"  className="mb-3" onClick={ manejarEliminar }>
+                  Eliminar
+                </Button>
+              </Col>
+            )}
           </Row>
+          
+  
         </Card.Body>
       </Card>
     </Container>
