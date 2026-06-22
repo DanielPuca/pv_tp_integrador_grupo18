@@ -7,7 +7,7 @@ const Nav = () => {
             : 'text-white text-decoration-none';
     return (
         <ul className="d-flex gap-3 list-unstyled mb-0 me-auto">
-            <li><NavLink to="/" className={estiloLink}>Inicio</NavLink></li>
+            <li><NavLink to="/dashboard" className={estiloLink}>Inicio</NavLink></li>
             <li><NavLink to="/clientes" className={estiloLink}>Clientes</NavLink></li>
         </ul>
     );

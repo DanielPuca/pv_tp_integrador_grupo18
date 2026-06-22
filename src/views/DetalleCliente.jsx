@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Alert, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Alert, Card, Col, Container, Row, Spinner, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const DetalleCliente = () => {
   const { id } = useParams();
@@ -8,6 +9,7 @@ const DetalleCliente = () => {
   const [cliente, setCliente] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const obtenerCliente = async () => {
@@ -70,7 +72,11 @@ const DetalleCliente = () => {
   const { name, email, phone, address, username, password } = cliente;
 
   return (
+    
     <Container className="py-4">
+      <Button variant="secondary" className="mb-3" onClick={() => navigate('/clientes')}>
+        ← Volver
+    </Button>
       <Card className="shadow-sm">
         <Card.Body>
           <h2 className="mb-1">Detalle del Cliente</h2>
